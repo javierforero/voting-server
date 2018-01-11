@@ -32,6 +32,70 @@ describe('application logic', () =>{
       }));
     });
 
+    it('puts the winnner back in entries', ()=> {
+        const state = Map({
+            vote: Map({
+                pair: List.of('Trainspotting', '28 days later'),
+                tally: Map({
+                    'Trainspotting': 4,
+                    '28 days later': 2
+                })
+            }),
+            entries: List.of('Sunshine', 'Millions', '127 Hours')
+        });
+
+        const nextState = next(state);
+
+        expect(nextState).to.equal(Map({
+            vote: Map({
+              pair: List.of('Sunshine', 'Millions')
+            }),
+            entries: List.of('127 Hours', 'Trainspotting')
+        }));
+    });
+
+    it('puts both entries back if they are tied', () => {
+        const state = Map({
+            vote: Map({
+                pair: List.of('Trainspotting', '28 days later'),
+                tally: Map({
+                    'Trainspotting': 3,
+                    '28 days later': 3
+                })
+            }),
+            entries: List.of('Sunshine', 'Millions', '127 Hours')
+        });
+
+        const nextState = next(state);
+
+        expect(nextState).to.equal(Map({
+            vote: Map({
+              pair: List.of('Sunshine', 'Millions')
+            }),
+            entries: List.of('127 Hours', 'Trainspotting', '28 days later')
+        }));
+
+    });
+
+    it('returns a winner when theres only one entry left', () => {
+      const state = Map({
+          vote: Map({
+              pair: List.of('Trainspotting', '28 days later'),
+              tally: Map({
+                'Trainspotting': 4,
+                '28 days later': 2
+              })
+          }),
+          entries: List()
+      });
+
+      const nextState = next(state);
+
+      expect(nextState).to.equal(Map({
+          winner: 'Trainspotting'
+      }));
+    });
+
   });
 
   describe('vote', () => {
