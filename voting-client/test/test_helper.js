@@ -2,15 +2,15 @@ import jsdom from 'jsdom';
 import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
 
-const doc = jsdom('<!doctype html><html><body></body></html>');
-const win = doc.defaultView;
+const doc = new jsdom.JSDOM('<!doctype html><html><body></body></html>');
+const win = doc.window;
 
 global.document = doc;
 global.window = win;
 
-Object.keys(window).forEach((key) => {
+Object.keys(win).forEach((key) => {
     if(!(key in global)) {
-        global[key] = window[key];
+        global[key] = win[key];
     }
 });
 
