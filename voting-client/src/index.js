@@ -13,6 +13,8 @@ const vote = (entry) => {
 
 ReactDOM.render(<Voting
                  pair={pair}
-                 vote={vote} 
+                 vote={vote}
+                 hasVoted={null}
+                 winner={null} 
                 />, document.getElementById('root'));
 registerServiceWorker();
