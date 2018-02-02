@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Vote from './components/Vote';
-import Winner from './components/Winner';
+import Vote from './Vote';
+import Winner from './Winner';
 
 class Voting extends Component {
   
