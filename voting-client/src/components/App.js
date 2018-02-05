@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {List, Map} from 'immutable';
 import Voting from './Voting';
 import Results from './Results';
 import {
@@ -7,33 +6,39 @@ import {
     HashRouter,
     Switch
 } from 'react-router-dom';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducer from './reducer';
 
-const pair = List.of('Trainspotting', '28 Days Later');
-const tally = Map({'Trainspotting': 5, '28 Days Later': 4});
+const store = createStore(reducer);
+
+store.dispatch({
+  type: 'SET_STATE',
+  state: {
+    vote: {
+      pair: ['Sunshine', '28 Days Later'],
+      tally: {Sunshine: 2}
+    }
+  }
+});
 
 class App extends Component {
     
     render() {
 
         return(
-          <HashRouter>
-            <Switch>  
-              <Route exact path="/" 
-                render={() => 
-                  <Voting pair={pair}
-                          tally={tally}
-                  />
-                }
+          <Provider store={store}>
+            <HashRouter>
+              <Switch>  
+                <Route exact path="/" 
+                  component={Voting}
+                />
+                <Route path="/results"
+                  component={Results}
               />
-              <Route path="/results"
-                render={() =>
-                  <Results pair={pair}
-                           tally={tally}          
-                  />
-                }
-              />
-            </Switch>  
-          </HashRouter>
+              </Switch>  
+            </HashRouter>
+          </Provider>  
         )
     }
 }
