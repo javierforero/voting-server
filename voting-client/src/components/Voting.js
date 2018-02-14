@@ -3,7 +3,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import Vote from './Vote';
 import Winner from './Winner';
-
+import * as actionCreators from './action_creators';
 class Voting extends Component {
   
   render() {
@@ -25,8 +25,12 @@ class Voting extends Component {
 function mapStateToProps(state) {
   return {
     pair: state.getIn(['vote','pair']),
+    hasVoted: state.get('hasVoted'),
     winner: state.get('winner')
   };
 }
 
-export default connect(mapStateToProps)(Voting);
+export default connect(
+                 mapStateToProps,
+                 actionCreators
+               )(Voting);
