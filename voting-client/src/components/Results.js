@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import Winner from './Winner';
 import {connect} from 'react-redux';
+import Winner from './Winner';
+import * as actionCreators from './action_creators';
 
 class Results extends Component {
 
@@ -9,7 +10,9 @@ class Results extends Component {
     }
 
     getVotes(entry) {
+      
       if(this.props.tally && this.props.tally.has(entry)) {
+          console.log("this entry with props: ", entry);
           return this.props.tally.get(entry);
       }
 
@@ -17,7 +20,6 @@ class Results extends Component {
     }
     
     render() {
-        
         return (
             this.props.winner ? <Winner ref="winner" winner={this.props.winner} /> :
             <div className="results">
@@ -44,11 +46,15 @@ class Results extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log("this is state, map to props: ", state.getIn(['vote', 'vote', 'tally']));
   return {
     pair: state.getIn(['vote', 'pair']),
-    tally: state.getIn(['vote', 'tally']),
+    tally: state.getIn(['vote', 'vote', 'tally']),
     winner: state.get('winner')
-  }
+  };
 }
 
-export default connect(mapStateToProps)(Results);
+export default connect(
+  mapStateToProps,
+  actionCreators
+)(Results);
