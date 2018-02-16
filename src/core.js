@@ -1,7 +1,12 @@
 import { List, Map } from 'immutable';
 
+export const INITIAL_STATE = Map();
+
 export function setEntries(state, entries) {
-    return state.set('entries', entries);
+    // return state.set('entries', entries);
+    const list = List(entries);
+    return state.set('entries', list)
+                .set('initialEntries', list);
 }
 
 function getWinners(vote) {
@@ -36,12 +41,18 @@ export function next(state) {
 }
 
 export function vote(voteState, entry) {
+    
     return voteState.updateIn(
       ['tally', entry],
       0,
       tally => tally + 1
     );
   }
-  
 
-export const INITIAL_STATE = Map();
+export function restart(state) {
+   let newState = state.set('entries', state.get('initialEntries'))
+                       .remove('vote')
+                       .remove('winner')
+                       .remove('hasVoted');  
+   return next(newState);                 
+}

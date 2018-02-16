@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ResetButton from './ResetButton';
 
 class Winner extends Component {
 
@@ -6,6 +7,7 @@ class Winner extends Component {
         return (
             <div className="winner">
               <h1>Winner is {this.props.winner}!</h1>
+              <ResetButton restart={this.props.restart} />
             </div>
         );
     }

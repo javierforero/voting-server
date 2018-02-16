@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Winner from './Winner';
+import ResetButton from './ResetButton';
 import * as actionCreators from './action_creators';
 
 class Results extends Component {
@@ -12,7 +13,6 @@ class Results extends Component {
     getVotes(entry) {
       
       if(this.props.tally && this.props.tally.has(entry)) {
-          console.log("this entry with props: ", entry);
           return this.props.tally.get(entry);
       }
 
@@ -21,7 +21,9 @@ class Results extends Component {
     
     render() {
         return (
-            this.props.winner ? <Winner ref="winner" winner={this.props.winner} /> :
+            this.props.winner ? 
+            <Winner ref="winner" restart={this.props.restart} 
+                                 winner={this.props.winner} /> :
             <div className="results">
               <div className="tally">
                 {this.getPair().map(entry => 
@@ -34,6 +36,7 @@ class Results extends Component {
                 )}
               </div>
               <div className="management">
+                <ResetButton restart={this.props.restart}/>
                 <button ref="next"
                         className="next"
                         onClick={this.props.next}>
@@ -46,10 +49,11 @@ class Results extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("this is state, map to props: ", state.getIn(['vote', 'vote', 'tally']));
+  console.log('i ran in results: ', state.get('hasVoted'));
   return {
     pair: state.getIn(['vote', 'pair']),
-    tally: state.getIn(['vote', 'vote', 'tally']),
+    tally: state.getIn(['vote','tally']),
+    hasVoted: state.get('hasVoted'),
     winner: state.get('winner')
   };
 }
