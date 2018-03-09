@@ -16,7 +16,7 @@
     "spectre.css": "^0.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start | npm start --prefix ../",
     "build": "react-scripts build",
     "test": "mocha --require babel-register --require ./test/test_helper.js",
     "test:watch": "npm run test -- --watch",

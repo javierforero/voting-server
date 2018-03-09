@@ -8,4 +8,14 @@ localhost:3000/#/results to monitor the voting process and proceed to the next r
 
 Voting is done in pairs of two at a time. One winner is displayed at the end. 
 
+To run in your local machine
+
+1) cd into `voting-server`
+2) `npm install`
+3) cd into `voting-server/voting-client`
+4) run `npm install`
+5) in voting-server/voting-client run `npm start`
+
+This should automatically open your browser in port 3000
+
 
